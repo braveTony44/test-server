@@ -8,7 +8,7 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 app.use(cors({
-    origin:"http://localhost:5173",
+    origin:"https://testing-auth-client.onrender.com",
     credentials:true
 }))
 app.use(express.json());
