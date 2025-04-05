@@ -14,8 +14,7 @@ router.post("/login", async (req, res) => {
             httpOnly: true,
             secure: true,
             maxAge: 3600000, 
-            sameSite: "Strict",
-            domain:".onrender.com"
+            sameSite: "lax",
           });
           return res.status(200).json({
             user: user[i],
