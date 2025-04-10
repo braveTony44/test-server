@@ -2,6 +2,8 @@ import express from "express";
 import user from "../config/db.js";
 const router = express.Router();
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv'
+dotenv.config();
 
 router.post("/login", async (req, res) => {
   try {
@@ -12,13 +14,12 @@ router.post("/login", async (req, res) => {
           const token = await jwt.sign({ user_email: email }, process.env.JWT_SECRET);
           res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            maxAge: 3600000, 
-            sameSite: "lax",
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 3600000, // The maximum age of the cookie in milliseconds (1 hour in this case)
+            sameSite: process.env.NODE_ENV === "production" ? 'none':'strict', // Helps prevent cross-site request forgery (CSRF) attacks
           });
           return res.status(200).json({
-            user: user[i],
-            token: token,
+            user: user[i]
           });
         } else {
           return res.status(200).json({ error: "Invalid password" });
